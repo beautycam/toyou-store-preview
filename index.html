@@ -86,6 +86,19 @@ body.lock{overflow:hidden}
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 .about.open .about-text{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
 .more{margin-top:4px;padding:6px 0;border:0;background:none;color:var(--accent);font:500 13px/1.2 var(--font);cursor:pointer}
+.about-extra{display:grid;gap:18px;margin-top:18px}
+.about:not(.open) .about-extra{display:none}
+.about.open .more{margin-top:14px}
+.upd{display:grid;gap:2px;font-size:14px}
+.upd span:first-child{font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;height:32px;padding:0 14px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-weight:500}
+.info-h{margin:0;font-size:16px;font-weight:500}
+.info{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:20px;row-gap:12px;font-size:14px;line-height:1.45}
+.info>div{display:contents}
+.info dt{color:var(--muted);white-space:nowrap}
+.info dd{margin:0;text-align:right;overflow-wrap:anywhere}
+.info small{display:block;margin-top:2px;color:var(--muted);font-size:12.5px}
 @media (prefers-reduced-motion:reduce){.about-h svg{transition:none}}
 .note{margin:0;font-size:12px;color:var(--muted)}
 
@@ -147,7 +160,7 @@ body.lock{overflow:hidden}
     </div>
 
     <div class="about" id="about">
-      <h3 class="about-h"><button id="aboutBtn" type="button" aria-expanded="false" aria-controls="aboutText"><span>이 앱 정보</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></h3>
+      <h3 class="about-h"><button id="aboutBtn" type="button" aria-expanded="false" aria-controls="aboutText aboutExtra"><span>이 앱 정보</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></h3>
       <p class="about-text" id="aboutText">감성 소통 공간 '너에게', 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.
 
 '너에게'는 서로에 대해 진솔하게 이야기하고 소중한 일상의 기억을 공유하는 공간입니다. 크리에이터들의 다채로운 일상 화보와 생생한 숏폼 영상을 감상하고, 1:1 영상채팅과 음성통화로 가까워지는 시간을 선사합니다.
@@ -179,6 +192,21 @@ body.lock{overflow:hidden}
 중흥마을신동아아파트, 611동 1001호
 원미구, 부천시, 경기도 14539
 South Korea 3788702523 2025-부천원미-0741 직접발행</p>
+      <div class="about-extra" id="aboutExtra">
+        <div class="upd"><span>업데이트 날짜</span><span>2026. 10. 22.</span></div>
+        <div class="chips"><span class="chip">데이트</span></div>
+        <h4 class="info-h">앱 정보</h4>
+        <dl class="info">
+          <div><dt>버전</dt><dd>2.1.9</dd></div>
+          <div><dt>업데이트 날짜</dt><dd>2026. 10. 22.</dd></div>
+          <div><dt>다운로드</dt><dd>1,000+</dd></div>
+          <div><dt>Android 요구사항</dt><dd>6.0 이상</dd></div>
+          <div><dt>인앱 상품</dt><dd>항목당 ₩2,800 - ₩330,000</dd></div>
+          <div><dt>콘텐츠 등급</dt><dd>청소년이용불가<small>사용자 상호작용 및 앱에서 바로 구매</small></dd></div>
+          <div><dt>출시일</dt><dd>2023. 12. 27.</dd></div>
+          <div><dt>제공</dt><dd>toyou2</dd></div>
+        </dl>
+      </div>
       <button class="more" id="aboutMore" type="button">전체 보기</button>
     </div>
   </section>
