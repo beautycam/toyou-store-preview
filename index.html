@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="너에게 앱 스토어 스크린샷 미리보기">
+<meta name="description" content="감성 소통 공간 &#x27;너에게&#x27;, 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="너에게 스토어 미리보기">
-<meta property="og:description" content="스토어 스크린샷 5장 미리보기. 누르면 크게 볼 수 있어요.">
+<meta property="og:description" content="감성 소통 공간 &#x27;너에게&#x27;, 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.">
 <meta property="og:image" content="https://beautycam.github.io/toyou-store-preview/s1.jpg">
 <meta property="og:image:width" content="1672">
 <meta property="og:image:height" content="941">
@@ -54,7 +54,7 @@ body.lock{overflow:hidden}
 .head{display:flex;align-items:center;gap:16px;padding:4px 16px 0}
 .icon{display:block;flex:none;width:72px;height:72px;border-radius:18px;box-shadow:0 0 0 1px var(--line)}
 .head-text{min-width:0}
-.head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700;letter-spacing:-.02em}
+.head h2{margin:0;font-size:20px;line-height:1.3;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
 .dev{margin:2px 0 0;color:var(--accent);font-size:14px;font-weight:500}
 .cta{padding:18px 16px 0}
 .install{display:flex;align-items:center;justify-content:center;height:42px;border-radius:21px;background:var(--accent);color:var(--accent-fg);font-size:14px;font-weight:500;user-select:none}
@@ -78,10 +78,15 @@ body.lock{overflow:hidden}
 }
 
 .about{padding:22px 16px 0}
-.about-h{display:flex;align-items:center;justify-content:space-between}
-.about h3{margin:0;font-size:16px;font-weight:500}
-.about svg{width:24px;height:24px;fill:var(--muted)}
-.about p{margin:10px 0 0;font-size:14px;line-height:1.65}
+.about-h{margin:0}
+.about-h button{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;border:0;background:none;color:var(--fg);font:500 16px/1.4 var(--font);text-align:left;cursor:pointer}
+.about-h svg{width:24px;height:24px;fill:var(--muted);transition:transform .2s}
+.about.open .about-h svg{transform:rotate(90deg)}
+.about-text{margin:10px 0 0;font-size:14px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.about.open .about-text{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+.more{margin-top:4px;padding:6px 0;border:0;background:none;color:var(--accent);font:500 13px/1.2 var(--font);cursor:pointer}
+@media (prefers-reduced-motion:reduce){.about-h svg{transition:none}}
 .note{margin:0;font-size:12px;color:var(--muted)}
 
 .lb{position:fixed;inset:0;z-index:50;display:grid;grid-template-rows:auto minmax(0,1fr);background:var(--scrim);color:var(--ov-fg);
@@ -122,8 +127,8 @@ body.lock{overflow:hidden}
     <div class="head">
       <img class="icon" src="icon.png" width="72" height="72" alt="">
       <div class="head-text">
-        <h2>너에게</h2>
-        <p class="dev">개발자 이름</p>
+        <h2>너에게 - 영상채팅 영상캠 여캠 화보 영통 크리에이터</h2>
+        <p class="dev">toyou2</p>
       </div>
     </div>
 
@@ -141,12 +146,40 @@ body.lock{overflow:hidden}
       <button class="nav next" id="navNext" type="button" aria-label="다음 스크린샷"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
     </div>
 
-    <div class="about">
-      <div class="about-h">
-        <h3>이 앱 정보</h3>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </div>
-      <p>영상통화, 음성통화, 쪽지, 화보 &amp; VOD, 하트 선물</p>
+    <div class="about" id="about">
+      <h3 class="about-h"><button id="aboutBtn" type="button" aria-expanded="false" aria-controls="aboutText"><span>이 앱 정보</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></h3>
+      <p class="about-text" id="aboutText">감성 소통 공간 '너에게', 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.
+
+'너에게'는 서로에 대해 진솔하게 이야기하고 소중한 일상의 기억을 공유하는 공간입니다. 크리에이터들의 다채로운 일상 화보와 생생한 숏폼 영상을 감상하고, 1:1 영상채팅과 음성통화로 가까워지는 시간을 선사합니다.
+
+💬 언제 어디서나 즐기는 편안한 소통과 일상 공유
+
+선명한 실시간 영상캠 환경을 통해 바로 연결되는 설렘을 전합니다.
+고화질 영상채팅: 크리에이터의 표정까지 생생하게 전해지는 고화질 영상통화로 라이브 대화를 나눌 수 있습니다.
+감성 음성통화 및 보이스톡: 깊은 여운을 전하는 고음질 음성통화로 편안하게 소통하세요.
+일상 화보 및 숏폼 피드: 평범한 하루를 특별하게 만드는 크리에이터들의 감각적인 화보와 생동감 있는 숏폼 영상을 고화질로 만나보세요.
+실시간 메시지 토크: 일상 안부와 속마음을 나눌 수 있는 1:1 채팅 기능을 지원합니다.
+
+🔒 누구나 안심하고 머물 수 있는 프라이빗 공간
+
+'너에게'는 모든 이용자와 크리에이터가 존중받으며 안전하게 소통할 수 있는 플랫폼 문화를 최우선으로 생각합니다.
+철저한 프라이버시 보호: 화면 캡처 방지 및 보안 시스템을 적용하여 이용자의 사생활과 대화 내용을 안전하게 보호하기 위해 노력합니다.
+실시간 모니터링 및 차단 시스템: 불쾌감을 주는 비매너 행위나 부적절한 이용자에 대응할 수 있도록 신고 및 차단 기능을 지원합니다.
+개인정보보호법 철저 준수: '너에게'는 개인정보보호법을 엄격히 준수하며, 관련 법령에 의거한 투명한 개인정보처리방침을 정하여 이용자의 소중한 권익을 최우선으로 보호합니다.
+
+✨ 이런 분들께 '너에게'를 추천합니다
+
+반복되는 바쁜 일상과 삭막한 현실 속에서 따뜻한 대화 상대와 감성 소통이 필요하신 분
+인기 여캠 크리에이터와 고화질 영상채팅, 영통을 나누고 싶으신 분
+감각적인 일상 화보와 숏폼 영상을 감상하며 크리에이터와 직접 소통하고 싶으신 분
+잠들기 전 편안한 목소리로 하루를 마무리할 음성통화, 보이스톡 친구를 찾으시는 분
+----
+개발자 연락처 :
+황은숙 중동 중동로280번길 27
+중흥마을신동아아파트, 611동 1001호
+원미구, 부천시, 경기도 14539
+South Korea 3788702523 2025-부천원미-0741 직접발행</p>
+      <button class="more" id="aboutMore" type="button">전체 보기</button>
     </div>
   </section>
 
@@ -192,6 +225,17 @@ body.lock{overflow:hidden}
     var mq = matchMedia('(prefers-color-scheme: dark)');
     if (mq.addEventListener) mq.addEventListener('change', paintTheme); else if (mq.addListener) mq.addListener(paintTheme);
   }
+
+  /* 이 앱 정보: 접기/펼치기 */
+  var about = $('about'), aboutBtn = $('aboutBtn'), aboutMore = $('aboutMore');
+  function toggleAbout() {
+    var open = !about.classList.contains('open');
+    about.classList.toggle('open', open);
+    aboutBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    aboutMore.textContent = open ? '접기' : '전체 보기';
+  }
+  aboutBtn.addEventListener('click', toggleAbout);
+  aboutMore.addEventListener('click', toggleAbout);
 
   /* 스크린샷 줄: 마우스용 좌우 버튼 */
   var row = $('shots'), navPrev = $('navPrev'), navNext = $('navNext');
