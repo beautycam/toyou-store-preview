@@ -82,9 +82,8 @@ body.lock{overflow:hidden}
 .about-h button{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;border:0;background:none;color:var(--fg);font:500 16px/1.4 var(--font);text-align:left;cursor:pointer}
 .about-h svg{width:24px;height:24px;fill:var(--muted);transition:transform .2s}
 .about.open .about-h svg{transform:rotate(90deg)}
-.about-text{margin:10px 0 0;font-size:14px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere;
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
-.about.open .about-text{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+.about-text{margin:10px 0 0;font-size:14px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere}
+.about:not(.open) .rest{display:none}
 .more{margin-top:4px;padding:6px 0;border:0;background:none;color:var(--accent);font:500 13px/1.2 var(--font);cursor:pointer}
 .about-extra{display:grid;gap:18px;margin-top:18px}
 .about:not(.open) .about-extra{display:none}
@@ -161,7 +160,7 @@ body.lock{overflow:hidden}
 
     <div class="about" id="about">
       <h3 class="about-h"><button id="aboutBtn" type="button" aria-expanded="false" aria-controls="aboutText aboutExtra"><span>이 앱 정보</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></h3>
-      <p class="about-text" id="aboutText">감성 소통 공간 '너에게', 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.
+      <p class="about-text" id="aboutText"><span class="lead">감성 소통 공간 '너에게', 인기 크리에이터와 실시간 영상통화, 고화질 영통, 보이스톡으로 특별한 대화를 시작하세요.</span><span class="rest">
 
 '너에게'는 서로에 대해 진솔하게 이야기하고 소중한 일상의 기억을 공유하는 공간입니다. 크리에이터들의 다채로운 일상 화보와 생생한 숏폼 영상을 감상하고, 1:1 영상채팅과 음성통화로 가까워지는 시간을 선사합니다.
 
@@ -191,7 +190,7 @@ body.lock{overflow:hidden}
 황은숙 중동 중동로280번길 27
 중흥마을신동아아파트, 611동 1001호
 원미구, 부천시, 경기도 14539
-South Korea 3788702523 2025-부천원미-0741 직접발행</p>
+South Korea 3788702523 2025-부천원미-0741 직접발행</span></p>
       <div class="about-extra" id="aboutExtra">
         <div class="upd"><span>업데이트 날짜</span><span>2026. 10. 22.</span></div>
         <div class="chips"><span class="chip">데이트</span></div>
