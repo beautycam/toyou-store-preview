@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="너에게 앱 스토어 스크린샷 미리보기">
+<meta property="og:type" content="website">
+<meta property="og:title" content="너에게 스토어 미리보기">
+<meta property="og:description" content="스토어 스크린샷 5장 미리보기. 누르면 크게 볼 수 있어요.">
+<meta property="og:image" content="https://beautycam.github.io/toyou-store-preview/s1.jpg">
+<meta property="og:image:width" content="1672">
+<meta property="og:image:height" content="941">
+<meta property="og:url" content="https://beautycam.github.io/toyou-store-preview/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon.png">
+<title>너에게 스토어 미리보기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* 레이아웃: 휴대전화 폭의 열 하나. 위에 얇은 도구줄, 아래에 스토어 목록 모양의 패널 */
+:root{
+  --bg:#edf0f3; --panel:#ffffff; --fg:#1d2227; --muted:#5b6670; --line:#dde2e7;
+  --accent:#0b7d5c; --accent-fg:#ffffff;
+  --scrim:rgba(7,10,14,.96); --ov-fg:#ffffff; --ov-ctl:rgba(18,22,28,.62); --ov-ctl-hover:rgba(18,22,28,.82); --ov-line:rgba(255,255,255,.3);
+  --shadow:0 1px 2px rgba(20,28,38,.08),0 10px 30px rgba(20,28,38,.10);
+  --ctl-shadow:0 2px 10px rgba(0,0,0,.2);
+  --font:"Noto Sans KR",system-ui,-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0c0f13;--panel:#161a1f;--fg:#e8ebee;--muted:#a3abb4;--line:#2a3037;--accent:#4cc3a0;--accent-fg:#06271d;--shadow:none;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0c0f13;--panel:#161a1f;--fg:#e8ebee;--muted:#a3abb4;--line:#2a3037;--accent:#4cc3a0;--accent-fg:#06271d;--shadow:none;color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.5;
+  padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body.lock{overflow:hidden}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.page{max-width:452px;margin:0 auto;display:grid;gap:12px}
+.page>*{min-width:0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bar-text{flex:1 1 220px;min-width:0}
+.bar h1{margin:0;font-size:16px;font-weight:700;letter-spacing:-.01em}
+.bar p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.pill{border:1px solid var(--line);background:var(--panel);color:var(--fg);font:500 13px/1 var(--font);padding:10px 14px;border-radius:999px;cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+
+.phone{container-type:inline-size;background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;padding-bottom:22px}
+.appbar{display:flex;align-items:center;height:52px;padding-inline:4px;color:var(--muted)}
+.appbar svg{width:24px;height:24px;margin:12px;fill:currentColor;flex:none}
+.appbar .sp{flex:1}
+.head{display:flex;align-items:center;gap:16px;padding:4px 16px 0}
+.icon{display:block;flex:none;width:72px;height:72px;border-radius:18px;box-shadow:0 0 0 1px var(--line)}
+.head-text{min-width:0}
+.head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700;letter-spacing:-.02em}
+.dev{margin:2px 0 0;color:var(--accent);font-size:14px;font-weight:500}
+.cta{padding:18px 16px 0}
+.install{display:flex;align-items:center;justify-content:center;height:42px;border-radius:21px;background:var(--accent);color:var(--accent-fg);font-size:14px;font-weight:500;user-select:none}
+
+.shots-wrap{position:relative;margin-top:20px}
+.shots{--h:188px;list-style:none;margin:0;padding:0 16px;display:flex;gap:8px;overflow-x:auto;position:relative;
+  scroll-snap-type:x proximity;scroll-padding-inline:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.shots::-webkit-scrollbar{display:none}
+@supports (width:1cqw){.shots{--h:clamp(150px,50cqw,206px)}}
+.shots li{flex:none;scroll-snap-align:start}
+.shot{position:relative;display:block;padding:0;border:0;background:none;border-radius:10px;cursor:zoom-in}
+.shot img{display:block;height:var(--h);width:auto;border-radius:10px}
+.shot::after{content:"";position:absolute;inset:0;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line);pointer-events:none}
+.nav{display:none}
+@media (hover:hover) and (pointer:fine){
+  .nav{display:grid;place-items:center;position:absolute;top:50%;width:36px;height:36px;margin-top:-18px;padding:0;border-radius:50%;
+    border:1px solid var(--line);background:var(--panel);color:var(--fg);box-shadow:var(--ctl-shadow);cursor:pointer}
+  .nav.prev{left:8px}
+  .nav.next{right:8px}
+  .nav svg{width:22px;height:22px;fill:currentColor}
+}
+
+.about{padding:22px 16px 0}
+.about-h{display:flex;align-items:center;justify-content:space-between}
+.about h3{margin:0;font-size:16px;font-weight:500}
+.about svg{width:24px;height:24px;fill:var(--muted)}
+.about p{margin:10px 0 0;font-size:14px;line-height:1.65}
+.note{margin:0;font-size:12px;color:var(--muted)}
+
+.lb{position:fixed;inset:0;z-index:50;display:grid;grid-template-rows:auto minmax(0,1fr);background:var(--scrim);color:var(--ov-fg);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.lb-top{display:flex;align-items:center;justify-content:space-between;padding:8px max(12px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+.lb-count{font-size:14px;font-variant-numeric:tabular-nums}
+.lb-btn,.lb-nav{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--ov-line);border-radius:50%;background:var(--ov-ctl);color:var(--ov-fg);cursor:pointer}
+.lb-btn:hover,.lb-nav:hover{background:var(--ov-ctl-hover)}
+.lb-btn svg,.lb-nav svg{width:24px;height:24px;fill:currentColor}
+.lb-nav:disabled{opacity:.25;cursor:default}
+.lb-nav:disabled:hover{background:var(--ov-ctl)}
+.lb-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);place-items:center;min-height:0;
+  padding:0 max(12px,env(safe-area-inset-right,0px)) 16px max(12px,env(safe-area-inset-left,0px));touch-action:pan-y}
+.lb-stage img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:14px;user-select:none;-webkit-user-drag:none}
+.lb-nav{position:absolute;top:50%;margin-top:-22px}
+.lb-prev{left:max(12px,env(safe-area-inset-left,0px))}
+.lb-next{right:max(12px,env(safe-area-inset-right,0px))}
+</style>
+</head>
+<body>
+<main class="page" id="page">
+  <header class="bar">
+    <div class="bar-text">
+      <h1>스토어 목록 미리보기</h1>
+      <p>가로형 1장과 세로형 4장입니다. 이미지를 누르면 크게 볼 수 있어요.</p>
+    </div>
+    <button class="pill" id="themeBtn" type="button">어둡게 보기</button>
+  </header>
+
+  <section class="phone" aria-label="너에게 스토어 목록">
+    <div class="appbar" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      <span class="sp"></span>
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </div>
+
+    <div class="head">
+      <img class="icon" src="icon.png" width="72" height="72" alt="">
+      <div class="head-text">
+        <h2>너에게</h2>
+        <p class="dev">개발자 이름</p>
+      </div>
+    </div>
+
+    <div class="cta"><div class="install" aria-hidden="true">설치</div></div>
+
+    <div class="shots-wrap">
+      <ul class="shots" id="shots">
+        <li><button class="shot" type="button"><img src="s1.jpg" width="1672" height="941" alt="영상통화 화면, 가로형"></button></li>
+        <li><button class="shot" type="button"><img src="s2.jpg" width="941" height="1672" alt="화보 &amp; VOD 팬방 화면"></button></li>
+        <li><button class="shot" type="button"><img src="s3.jpg" width="941" height="1672" alt="LIVE 목록 화면"></button></li>
+        <li><button class="shot" type="button"><img src="s4.jpg" width="941" height="1672" alt="순위 목록과 쪽지 쓰기 화면"></button></li>
+        <li><button class="shot" type="button"><img src="s5.jpg" width="941" height="1672" alt="프로필 화면"></button></li>
+      </ul>
+      <button class="nav prev" id="navPrev" type="button" aria-label="이전 스크린샷" hidden><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+      <button class="nav next" id="navNext" type="button" aria-label="다음 스크린샷"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+    </div>
+
+    <div class="about">
+      <div class="about-h">
+        <h3>이 앱 정보</h3>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </div>
+      <p>영상통화, 음성통화, 쪽지, 화보 &amp; VOD, 하트 선물</p>
+    </div>
+  </section>
+
+  <p class="note">실제 스토어 화면과 크기와 간격이 조금 다를 수 있어요.</p>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="스크린샷 크게 보기" hidden>
+  <div class="lb-top">
+    <span class="lb-count" id="lbCount">1 / 5</span>
+    <button class="lb-btn" id="lbClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="이전"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+    <img id="lbImg" alt="">
+    <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="다음"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement;
+  var KEY = 'toyou-store-preview-theme';
+
+  /* 밝게/어둡게 */
+  var themeBtn = $('themeBtn');
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'dark') return true;
+    if (t === 'light') return false;
+    return !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function paintTheme() { themeBtn.textContent = isDark() ? '밝게 보기' : '어둡게 보기'; }
+  try { var saved = localStorage.getItem(KEY); if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved); } catch (e) {}
+  paintTheme();
+  themeBtn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+    paintTheme();
+  });
+  if (window.matchMedia) {
+    var mq = matchMedia('(prefers-color-scheme: dark)');
+    if (mq.addEventListener) mq.addEventListener('change', paintTheme); else if (mq.addListener) mq.addListener(paintTheme);
+  }
+
+  /* 스크린샷 줄: 마우스용 좌우 버튼 */
+  var row = $('shots'), navPrev = $('navPrev'), navNext = $('navNext');
+  var reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function updateNav() {
+    var max = row.scrollWidth - row.clientWidth;
+    navPrev.hidden = row.scrollLeft <= 2;
+    navNext.hidden = row.scrollLeft >= max - 2;
+  }
+  navPrev.addEventListener('click', function () { row.scrollBy({ left: -row.clientWidth * 0.75, behavior: reduce ? 'auto' : 'smooth' }); });
+  navNext.addEventListener('click', function () { row.scrollBy({ left: row.clientWidth * 0.75, behavior: reduce ? 'auto' : 'smooth' }); });
+  row.addEventListener('scroll', updateNav, { passive: true });
+  window.addEventListener('resize', updateNav);
+  window.addEventListener('load', updateNav);
+  updateNav();
+
+  /* 크게 보기 */
+  var items = [].slice.call(row.querySelectorAll('.shot'));
+  var lb = $('lb'), lbImg = $('lbImg'), lbCount = $('lbCount'), lbPrev = $('lbPrev'), lbNext = $('lbNext'), lbClose = $('lbClose'), stage = $('lbStage'), page = $('page');
+  var cur = 0, opener = null, suppressClick = false;
+
+  function show(i) {
+    cur = Math.max(0, Math.min(items.length - 1, i));
+    var im = items[cur].querySelector('img');
+    lbImg.src = im.getAttribute('src');
+    lbImg.alt = im.alt;
+    lbCount.textContent = (cur + 1) + ' / ' + items.length;
+    lbPrev.disabled = cur === 0;
+    lbNext.disabled = cur === items.length - 1;
+  }
+  function openLb(i) {
+    opener = document.activeElement;
+    show(i);
+    lb.hidden = false;
+    page.inert = true;
+    document.body.classList.add('lock');
+    lbClose.focus({ preventScroll: true });
+  }
+  function closeLb() {
+    lb.hidden = true;
+    page.inert = false;
+    document.body.classList.remove('lock');
+    row.scrollTo({ left: Math.max(0, items[cur].parentNode.offsetLeft - 16) });
+    if (opener && opener.focus) opener.focus({ preventScroll: true });
+  }
+  items.forEach(function (el, i) { el.addEventListener('click', function () { openLb(i); }); });
+  lbPrev.addEventListener('click', function () { show(cur - 1); });
+  lbNext.addEventListener('click', function () { show(cur + 1); });
+  lbClose.addEventListener('click', closeLb);
+  stage.addEventListener('click', function (e) { if (suppressClick) return; if (e.target === stage) closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') show(cur - 1);
+    else if (e.key === 'ArrowRight') show(cur + 1);
+  });
+
+  var sx = null;
+  stage.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; sx = e.clientX; });
+  stage.addEventListener('pointerup', function (e) {
+    if (sx === null) return;
+    var dx = e.clientX - sx; sx = null;
+    if (Math.abs(dx) > 50) {
+      show(cur + (dx < 0 ? 1 : -1));
+      suppressClick = true; setTimeout(function () { suppressClick = false; }, 0);
+    }
+  });
+  stage.addEventListener('pointercancel', function () { sx = null; });
+})();
+</script>
+</body>
+</html>
